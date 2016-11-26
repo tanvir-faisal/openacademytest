@@ -1,0 +1,68 @@
+<openerp>
+	<data>
+		<record id="module_category_academy" model="ir.module.category">
+			<field name="name">Open Academy</field>
+			<field name="sequence">90</field>
+		</record>
+		<record id="openacademy_group_manager" model="res.groups">
+			<field name="name">OpenAcademy / Manager</field>
+			<field name="category_id" ref="module_category_academy" />
+		</record>
+		<record id="openacademy_group_user" model="res.groups">
+			<field name="name">OpenAcademy / User</field>
+			<field name="category_id" ref="module_category_academy" />
+		</record>
+
+		<record id="delete_cancelled_only" model="ir.rule">
+			<field name="name">course manager rule</field>
+			<field name="model_id" ref="model_openacademy_course" />
+			<field name="groups" eval="[(4, ref('openacademy_group_manager'))]" />
+			<field name="perm_read" eval="0" />
+			<field name="perm_write" eval="0" />
+			<field name="perm_create" eval="0" />
+			<field name="perm_unlink" eval="1" />
+			<field name="domain_force">[('state','=','cancel')]</field>
+		</record>
+
+		<record id="edit_cancelled_course_user" model="ir.rule">
+			<field name="name">course user rule</field>
+			<field name="model_id" ref="model_openacademy_course" />
+			<field name="groups" eval="[(4, ref('openacademy_group_user'))]" />
+			<field name="perm_read" eval="1" />
+			<field name="perm_write" eval="0" />
+			<field name="perm_create" eval="0" />
+			<field name="perm_unlink" eval="0" />
+			<field name="domain_force">[('state','=','confirm')]</field>
+		</record>
+
+		<record id="delete_cancelled_only_session" model="ir.rule">
+			<field name="name">session manager rule</field>
+			<field name="model_id" ref="model_openacademy_session" />
+			<field name="groups" eval="[(4, ref('openacademy_group_manager'))]" />
+			<field name="perm_read" eval="0" />
+			<field name="perm_write" eval="0" />
+			<field name="perm_create" eval="0" />
+			<field name="perm_unlink" eval="1" />
+			<field name="domain_force">[('state','=','cancel')]</field>
+		</record>
+
+		<record id="edit_cancel" model="ir.rule">
+			<field name="name">session user rule</field>
+			<field name="model_id" ref="model_openacademy_session" />
+			<field name="groups" eval="[(4, ref('openacademy_group_user'))]" />
+			<field name="perm_read" eval="1" />
+			<field name="perm_write" eval="0" />
+			<field name="perm_create" eval="0" />
+			<field name="perm_unlink" eval="0" />
+			<field name="domain_force">[('state','=','confirm')]</field>
+		</record>
+
+	</data>
+</openerp>
+
+<!-- <record id="module_category_academy" model="ir.module.category" > //sajal 
+	vai er ref <field name="name">Open Academy</field> <field name="sequence">90</field> 
+	</record> <record id="openacademy_group_user" model="res.groups"> <field 
+	name="name">User</field> <field name="category_id" ref=" module_category_academy"/> 
+	</record> -->
+       

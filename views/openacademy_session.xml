@@ -1,0 +1,151 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<openerp>
+	<data>
+		<record model="ir.ui.view" id="openacademy_session_form_view">
+			<field name="name">session.form</field>
+			<field name="model">openacademy.session</field>
+			<field name="arch" type="xml">
+				<form string="Session Form">
+					<header>
+						<button name="confirm" type="workflow" string="Confirm"
+							states="draft" class="oe_highlight" />
+						<button name="done" type="workflow" string="Done" states="confirm"
+							class="oe_highlight" />
+						<button name="cancel" type="workflow" string="Cancel"
+							states="confirm" />
+						<field name="state" widget="statusbar" />
+					</header>
+					<sheet>
+						<group>
+							<field name="name" />
+							<field name="start_date" />
+							<field name="duration" />
+							<field name="seats" />
+							<field name="course_id" />
+							<field name="attendee_ids" />
+						</group>
+					</sheet>
+				</form>
+			</field>
+		</record>
+
+		<record model="ir.ui.view" id="session_tree_view">
+			<field name="name">session.tree</field>
+			<field name="model">openacademy.session</field>
+			<field name="arch" type="xml">
+				<tree string="Session tree" default_order="name desc">
+					<field name="name" />
+					<field name="start_date" />
+					<field name="duration" />
+					<field name="seats" />
+					<field name="course_id" />
+					<field name="attendee_ids" />
+					<field name="state" />
+				</tree>
+			</field>
+		</record>
+
+		<record model="ir.ui.view" id="session_search_view">
+			<field name="name">session.search</field>
+			<field name="model">openacademy.session</field>
+			<field name="arch" type="xml">
+				<search>
+					<field name="name" />
+					<field name="course_id" />
+					<filter name="session_startdate" string="Today"
+						domain="[('start_date', '&lt;', time.strftime('%Y-%m-%d'))]" />
+					<group string="Group By">
+						<filter name="group_name" string="Group By Name" context="{'group_by': 'name'}" />
+					</group>
+				</search>
+			</field>
+		</record>
+
+		<record model="ir.ui.view" id="view_openacad_session_kanban">
+			<field name="name">openacad.session.kanban</field>
+			<field name="model">openacademy.session</field>
+			<field name="arch" type="xml">
+				<kanban default_group_by="name" create="false">
+					<field name="color" />
+					<templates>
+						<t t-name="kanban-box">
+							<div
+								t-attf-class="oe_kanban_color_{{kanban_getcolor(record.color.raw_value)}}
+                                                  oe_kanban_global_click_edit oe_semantic_html_override
+                                                  oe_kanban_card {{record.group_fancy==1 ? 'oe_kanban_card_fancy' : ''}}">
+								<div class="oe_dropdown_kanban">
+									<!-- dropdown menu -->
+									<div class="oe_dropdown_toggle">
+										<i class="fa fa-bars fa-lg" />
+										<ul class="oe_dropdown_menu">
+											<!-- <li> <a type="delete">Delete</a> </li> -->
+											<li>
+												<ul class="oe_kanban_colorpicker" data-field="color" />
+											</li>
+										</ul>
+									</div>
+									<div class="oe_clear"></div>
+								</div>
+								<div t-attf-class="oe_kanban_content">
+									<!-- title -->
+									Session name:
+									<field name="name" />
+									<br />
+									Start date:
+									<field name="start_date" />
+									<br />
+									duration:
+									<field name="duration" />
+								</div>
+							</div>
+						</t>
+					</templates>
+				</kanban>
+			</field>
+		</record>
+
+		<record model="ir.ui.view" id="openacademy_session_graph_view">
+			<field name="name">openacad.session.graph</field>
+			<field name="model">openacademy.session</field>
+			<field name="arch" type="xml">
+				<graph string="Session Graph" create="false">
+					<field name="name" />
+					<field name="seats" type="measure" />
+					<field name="course_id" />
+					<field name="attendee_ids" />
+				</graph>
+			</field>
+		</record>
+
+		<record model="ir.ui.view" id="session_calendar_view">
+			<field name="name">session.calendar</field>
+			<field name="model">openacademy.session</field>
+			<field name="arch" type="xml">
+				<calendar string="Calender" date_start="start_date" color="color"
+					quick_add="false">
+					<field name="name" />
+					<field name="seats" />
+				</calendar>
+			</field>
+		</record>
+
+
+
+		<record model="ir.actions.act_window" id="session_list_action">
+			<field name="name">Sessions</field>
+			<field name="res_model">openacademy.session</field>
+			<field name="view_type">form</field>
+			<field name="view_mode">tree,form,kanban,graph,calendar</field>
+			<field name="context" eval="{'search_default_session_startdate': 1}" />
+			<field name="help" type="html">
+				<p class="oe_view_nocontent_create">Create the first Session
+				</p>
+			</field>
+		</record>
+		<!-- <menuitem id="session_menu" name="Sessions" parent="openacademy_menu" 
+			action="session_list_action" /> -->
+		<menuitem id="session_menu" name="Sessions" parent="openacademy_menu"
+			action="session_list_action" sequence="2" />
+
+	</data>
+</openerp>

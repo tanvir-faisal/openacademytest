@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<openerp>
+	<data>
+
+		<report id="session_report" model="openacademy.session" string="Report On Session"
+			report_type="qweb-pdf" name="openacademytest.report_of_session_view"
+			file="openacademytest.report_of_session" />
+
+<!-- 		<record id="paperformat_session" model="report.paperformat">
+			<field name="name">Session Report!</field>
+			<field name="format">custom</field>
+			<field name="page_height">80</field>
+			<field name="page_width">175</field>
+			<field name="orientation">Landscape</field>
+			<field name="margin_top">3</field>
+			<field name="margin_bottom">3</field>
+			<field name="margin_left">3</field>
+			<field name="margin_right">3</field>
+			<field name="header_line" eval="False" />
+			<field name="header_spacing">3</field>
+			<field name="dpi">80</field>
+		</record>
+
+		<record id="openacademytest.report_of_session_qweb" model="ir.actions.report.xml">
+			<field name="paperformat_id" ref="openacademytest.paperformat_session" />
+		</record>
+ -->
+		<template id="report_of_session_view">
+			<t t-call="report.html_container">
+				<t t-foreach="docs" t-as="doc">
+					<t t-call="report.external_layout">
+						<div class="page">
+							<h1 class="text-center">Report On Session</h1>
+							<div class="row">
+								<div>
+
+								</div>
+								<div class="col-xs-8">
+									<p>
+										<b>Session Name:</b>
+										<span t-field="doc.name" />
+									</p>
+									<p>
+										<b>Start Date:</b>
+										<span t-field="doc.start_date" />
+									</p>
+									<p>
+										<b>Session Duration:</b>
+										<span t-field="doc.duration" />
+									</p>
+								</div>
+								<div class="col-xs-4">
+									<p>
+										<b>Seats:</b>
+										<span t-field="doc.seats" />
+									</p>
+									<p>
+										<b>Course:</b>
+										<span t-field="doc.course_id" />
+									</p>
+									<p>
+										<b>Attendee:</b>
+										<t t-foreach="doc.attendee_ids" t-as="attendee">
+											<li>
+												<span t-field="attendee.name" />
+											</li>
+										</t>
+
+									</p>
+								</div>
+							</div>
+						</div>
+					</t>
+				</t>
+			</t>
+		</template>
+
+
+
+	</data>
+</openerp>

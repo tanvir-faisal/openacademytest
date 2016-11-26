@@ -1,0 +1,6 @@
+id,name,model_id/id,group_id/id,perm_read,perm_write,perm_create,perm_unlink
+access_course_manager,course.manager,model_openacademy_course,openacademy_group_manager,1,1,1,1
+access_course_user,course.user,model_openacademy_course,openacademy_group_user,1,0,0,1
+access_session_manager,session.manager,model_openacademy_session,openacademy_group_manager,1,1,1,1
+access_session_user,session.user,model_openacademy_session,openacademy_group_user,1,0,0,1
+

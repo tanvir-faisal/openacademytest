@@ -1,0 +1,126 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<openerp>
+	<data>
+		<record model="ir.ui.view" id="openacademy_course_form_view">
+			<field name="name">course.form</field>
+			<field name="model">openacademy.course</field>
+			<field name="arch" type="xml">
+				<form string="Course Form">
+					<header>
+						<button name="action_confirm" type="object" string="Confirm"
+							states="draft" class="oe_highlight" />
+						<button name="action_done" type="object" string="Done"
+							states="confirm" class="oe_highlight" />
+						<button name="action_cancel" type="object" string="Cancel"
+							states="confirm,done" />
+						<button name="action_wizard" type="object" string="Wizard"
+							states="draft" />
+						<button name="%(alert_wizard_action)d" type="action"
+							string="Alert" states="draft" class="oe_highlight" />
+						<field name="state" widget="statusbar" />
+					</header>
+					<sheet>
+						<group>
+							<field name="name" />
+							<field name="description" />
+							<field name="responsible_id"
+								options="{'no_open':False,'no_create':1,'no_create_edit':1}" />
+							<field name="session_ids">
+								<tree string="Registered sessions" editable="top">
+									<field name="name" />
+									<field name="start_date" />
+									<field name="duration" />
+									<field name="seats" />
+								</tree>
+							</field>
+							<field name="selection" />
+						</group>
+					</sheet>
+				</form>
+			</field>
+		</record>
+
+		<record model="ir.ui.view" id="course_tree_view">
+			<field name="name">course.tree</field>
+			<field name="model">openacademy.course</field>
+			<field name="arch" type="xml">
+				<tree string="Course tree">
+					<field name="name" />
+					<field name="description" />
+					<field name="responsible_id" />
+					<field name="selection" />
+					<field name="state" />
+				</tree>
+			</field>
+		</record>
+
+		<record model="ir.ui.view" id="course_search_view">
+			<field name="name">course.search</field>
+			<field name="model">openacademy.course</field>
+			<field name="arch" type="xml">
+				<search>
+					<field name="name" />
+					<field name="description" />
+					<filter name="draft_courses" string="Draft Courses"
+						domain="[('state', '=', 'draft')]" />
+					<group string="Group By">
+						<filter name="group_state" string="Group By State" context="{'group_by': 'state'}" />
+					</group>
+				</search>
+			</field>
+		</record>
+
+		<record model="ir.ui.view" id="view_openacad_course_kanban">
+			<field name="name">openacad.course.kanban</field>
+			<field name="model">openacademy.course</field>
+			<field name="arch" type="xml">
+				<kanban default_group_by="state" create="false">
+					<templates>
+						<t t-name="kanban-box">
+							<div t-attf-class="oe_kanban_content">
+								<!-- title -->
+								Course name:
+								<field name="name" />
+								<br />
+								Description:
+								<field name="description" />
+								<br />
+								Responsible:
+								<field name="responsible_id" />
+								<field name="state" invisible='1' />
+							</div>
+						</t>
+					</templates>
+				</kanban>
+			</field>
+		</record>
+
+
+		<record model="ir.actions.act_window" id="course_list_action">
+			<field name="name">Courses</field>
+			<field name="res_model">openacademy.course</field>
+			<field name="view_type">form</field>
+			<field name="view_mode">tree,form,kanban</field>
+			<!-- <field name="context" eval="{'search_default_draft_courses': 1}"/> -->
+			<field name="help" type="html">
+				<p class="oe_view_nocontent_create">Create the first course
+				</p>
+			</field>
+		</record>
+
+
+		<!-- top level menu: no parent -->
+		<!-- <menuitem id="main_openacademy_menu" name="Open Academy Test"/> A 
+			first level in the left side menu is needed before using action= attribute 
+			<menuitem id="openacademy_menu" name="Open Academy Test" parent="main_openacademy_menu"/> 
+			the following menuitem should appear *after* its parent openacademy_menu 
+			and *after* its action course_list_action <menuitem id="courses_menu" name="Courses" 
+			parent="openacademy_menu" action="course_list_action"/> -->
+		<!-- Full id location: action="openacademy.course_form_view" It is not 
+			required when it is the same module -->
+		<menuitem id="courses_menu" name="Courses" parent="openacademy_menu"
+			action="course_list_action" sequence="1" />
+
+	</data>
+</openerp>

@@ -1,0 +1,12 @@
+<openerp>
+	<data>
+
+		<menuitem id="main_openacademy_menu" name="Open Academy Test" />
+		<!-- A first level in the left side menu is needed before using action= 
+			attribute -->
+		<menuitem id="openacademy_menu" name="Open Academy Test"
+			parent="main_openacademy_menu" />
+		<!-- the following menuitem should appear *after* its parent openacademy_menu 
+			and *after* its action course_list_action -->
+	</data>
+</openerp>
